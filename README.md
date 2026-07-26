@@ -28,8 +28,9 @@ El proyecto estara accesible en http://localhost:3000
 Arquitectura del Proyecto
 
 El proyecto utiliza una arquitectura de componentes desacoplada orientada a la mantenibilidad:
-- Comunicacion externa: La instancia de Axios y las llamadas a la API (DummyJSON) estan aisladas en el directorio de rutas. Los componentes de UI solo consumen funciones puras, desconociendo la logica HTTP.
-- Manejo de estado: Redux Toolkit administra la memoria global. Se aplico un patron de estado normalizado (diccionario de entidades) para los favoritos, optimizando las busquedas a O(1).
+- Comunicacion externa: La instancia de Axios y las llamadas a la API (DummyJSON) estan aisladas en el directorio de rutas. 
+- Manejo de estado: Redux Toolkit administra la memoria global. Se aplico un patron de estado normalizado (diccionario de entidades) para los favoritos.
+- Modo Claro/Oscuro: Se desarrollo un componente invisible (ThemeApplier) que escucha el estado de Redux (themeSlice) e inyecta dinamicamente el atributo `data-theme='light'` en la etiqueta `:root` (html). El diseño se adapta mediante la sobreescritura nativa de variables CSS.
 - Renderizado hibrido: Se aprovecha el App Router de Next.js, encapsulando la interactividad (hooks, estado local) unicamente donde es necesaria ("use client").
 
 Cumplimiento de Requerimientos

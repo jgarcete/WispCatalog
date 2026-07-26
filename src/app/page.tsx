@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 
 const particles = Array.from({ length: 30 }, (_, i) => ({
   id: i,
-  left: `${Math.random() * 100}%`,
+  left: `${(i / 30) * 100 + (Math.random() * 2)}%`,
   delay: Math.random() * 8,
   duration: 6 + Math.random() * 8,
   size: 2 + Math.random() * 3,
