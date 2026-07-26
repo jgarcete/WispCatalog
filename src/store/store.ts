@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import productsReducer from '@/store/productsSlice';
 import favoritesReducer, { STORAGE_KEY } from '@/store/favoritesSlice';
+import themeReducer from '@/store/themeSlice';
 
 // Configuracion del store central
 export const store = configureStore({
   reducer: {
     products: productsReducer,
     favorites: favoritesReducer,
+    theme: themeReducer,
   },
 });
 

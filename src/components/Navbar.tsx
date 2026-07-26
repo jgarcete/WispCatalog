@@ -3,15 +3,18 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '@/store/store';
-import { Menu, X } from 'lucide-react';
+import { toggleTheme } from '@/store/themeSlice';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const favCount = useSelector((state: RootState) => state.favorites.ids.length);
+  const theme = useSelector((state: RootState) => state.theme.mode);
 
   const links = [
     { href: '/catalog', label: 'Catálogo' },
@@ -66,6 +69,17 @@ export default function Navbar() {
               )}
             </Link>
           ))}
+          <button
+            onClick={() => {
+              dispatch(toggleTheme());
+              setIsOpen(false);
+            }}
+            className="navbar__link"
+            aria-label="Cambiar tema"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
         </div>
       </div>
     </nav>

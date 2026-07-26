@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import StoreProvider from '@/store/StoreProvider';
+import ThemeApplier from '@/components/ThemeApplier';
 import LayoutShell from '@/components/LayoutShell';
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="es">
       <body>
         <StoreProvider>
+          <ThemeApplier />
           <LayoutShell>{children}</LayoutShell>
         </StoreProvider>
       </body>

@@ -39,6 +39,22 @@
   --border-gold: 1px solid rgba(193, 162, 122, 0.35);
 }
 
+:root[data-theme='light'] {
+  --color-bg-base: #FDFBF7;
+  --color-bg-ui: #FFFFFF;
+  --color-accent-gold: #B08D5B;
+  --color-accent-green: #234033;
+  --color-text-light: #1A2420;
+  --color-text-muted: #6B7C73;
+  
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-elevated: 0 10px 40px rgba(0, 0, 0, 0.08);
+  --shadow-glow-gold: 0 0 40px rgba(176, 141, 91, 0.15);
+
+  --border-subtle: 1px solid rgba(176, 141, 91, 0.2);
+  --border-gold: 1px solid rgba(176, 141, 91, 0.4);
+}
+
 *,
 *::before,
 *::after {
@@ -198,10 +214,10 @@ h3 {
     transform: translateY(0) scale(0.5);
   }
   15% {
-    opacity: 0.6;
+    opacity: 1;
   }
   85% {
-    opacity: 0.6;
+    opacity: 1;
   }
   100% {
     opacity: 0;
@@ -431,7 +447,7 @@ h3 {
 .search__input:focus {
   border-color: rgba(193, 162, 122, 0.5);
   box-shadow: 0 0 0 3px rgba(193, 162, 122, 0.1), 0 0 20px rgba(193, 162, 122, 0.08);
-  background: rgba(24, 34, 29, 0.9);
+  background: var(--color-bg-base);
 }
 
 .search__clear {
