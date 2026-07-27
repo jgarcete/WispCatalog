@@ -46,40 +46,47 @@ const SKELETON_COUNT = 8;
 export default function ProductGrid() {
   const dispatch = useDispatch<AppDispatch>();
   
-  const { items, status, error, page, hasMore, searchQuery } = useSelector(
+  const { items, status, error, page, hasMore, searchQuery, selectedCategory, maxPrice } = useSelector(
     (state: RootState) => state.products
   );
 
   const loadProducts = useCallback(
-    (currentPage: number, query: string) => {
-      dispatch(fetchCatalog({ page: currentPage, query }));
+    (currentPage: number, query: string, category: string) => {
+      dispatch(fetchCatalog({ page: currentPage, query, category }));
     },
     [dispatch]
   );
 
   useEffect(() => {
     if (items.length === 0 && status === 'idle') {
-      loadProducts(0, searchQuery);
+      loadProducts(0, searchQuery, selectedCategory);
     }
-  }, [items.length, status, searchQuery, loadProducts]);
+  }, [items.length, status, searchQuery, selectedCategory, loadProducts]);
 
   const sentinelRef = useInfiniteScroll({
     hasMore,
     isLoading: status === 'loading',
-    onLoadMore: () => loadProducts(page, searchQuery),
+    onLoadMore: () => loadProducts(page, searchQuery, selectedCategory),
   });
 
-  const handleSearch = (query: string) => {
-    loadProducts(0, query);
+  const handleSearch = (query: string, category: string = selectedCategory) => {
+    loadProducts(0, query, category);
   };
 
   const handleRetry = () => {
     dispatch(resetProducts());
     dispatch(setSearchQuery(''));
-    loadProducts(0, '');
+    loadProducts(0, '', selectedCategory);
   };
 
   const isInitialLoad = status === 'loading' && items.length === 0;
+
+  // Ordenamiento local por precio (la API no lo soporta)
+  const filteredItems = [...items].sort((a, b) => {
+    if (maxPrice === 'asc') return a.price - b.price;
+    if (maxPrice === 'desc') return b.price - a.price;
+    return 0;
+  });
 
   return (
     <section className="grid-section">
@@ -126,7 +133,7 @@ export default function ProductGrid() {
                       <SkeletonCard />
                     </motion.div>
                   ))
-                : items.map((product) => (
+                : filteredItems.map((product) => (
                     <motion.div 
                       key={product.id} 
                       variants={itemVariants}
@@ -145,7 +152,7 @@ export default function ProductGrid() {
                 ) : (
                   <button
                     className="btn-secondary"
-                    onClick={() => loadProducts(page, searchQuery)}
+                    onClick={() => loadProducts(page, searchQuery, selectedCategory)}
                     type="button"
                   >
                     Cargar más
@@ -155,7 +162,7 @@ export default function ProductGrid() {
             )}
 
             {}
-            {status === 'succeeded' && items.length === 0 && (
+            {status === 'succeeded' && filteredItems.length === 0 && (
               <motion.div 
                 className="empty-state"
                 initial={{ opacity: 0, y: 20 }}

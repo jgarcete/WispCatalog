@@ -4,15 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '@/store/store';
+import type { RootState, AppDispatch } from '@/store/store';
 import { toggleTheme } from '@/store/themeSlice';
+import { resetProducts, setSearchQuery, setCategory, setMaxPrice } from '@/store/productsSlice';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const favCount = useSelector((state: RootState) => state.favorites.ids.length);
   const theme = useSelector((state: RootState) => state.theme.mode);
 
@@ -29,6 +30,11 @@ export default function Navbar() {
           className="navbar__logo"
           onClick={(e) => {
             setIsOpen(false);
+            // Resetear todos los filtros
+            dispatch(setSearchQuery(''));
+            dispatch(setCategory(''));
+            dispatch(setMaxPrice(''));
+            dispatch(resetProducts());
             if (pathname === '/catalog') {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
