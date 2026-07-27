@@ -84,7 +84,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   const showFilters = SHOW_CATEGORY_FILTER || SHOW_PRICE_FILTER;
 
   return (
-    <div className="search-bar-wrapper">
+    <div className={`search-bar-wrapper ${!showFilters ? 'search-bar-wrapper--centered' : ''}`}>
       {/* Barra de busqueda principal */}
       <div className="search">
         <Search className="search__icon" size={20} />

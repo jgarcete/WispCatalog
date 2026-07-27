@@ -481,6 +481,11 @@ h3 {
   max-width: 720px;
 }
 
+.search-bar-wrapper--centered {
+  max-width: 600px;
+  justify-content: center;
+}
+
 .search-bar-wrapper .search {
   flex: 1;
   min-width: 0;
