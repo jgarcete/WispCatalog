@@ -9,6 +9,8 @@ interface ProductsState {
   page: number; 
   hasMore: boolean; 
   searchQuery: string; 
+  selectedCategory: string;
+  maxPrice: string;
 }
 
 const initialState: ProductsState = {
@@ -18,14 +20,16 @@ const initialState: ProductsState = {
   page: 0,
   hasMore: true,
   searchQuery: '',
+  selectedCategory: '',
+  maxPrice: '',
 };
 
 // Peticion a la API
 export const fetchCatalog = createAsyncThunk(
   'products/fetchCatalog',
-  async ({ page, query }: { page: number; query: string }) => {
+  async ({ page, query, category }: { page: number; query: string; category?: string }) => {
     
-    const data = await fetchCatalogRoute(page, query);
+    const data = await fetchCatalogRoute(page, query, category);
 
     return { ...data, page };
   }
@@ -49,6 +53,12 @@ const productsSlice = createSlice({
     
     setSearchQuery(state, action) {
       state.searchQuery = action.payload;
+    },
+    setCategory(state, action) {
+      state.selectedCategory = action.payload;
+    },
+    setMaxPrice(state, action) {
+      state.maxPrice = action.payload;
     },
   },
 
@@ -83,5 +93,5 @@ const productsSlice = createSlice({
 });
 
 // Acciones exportadas
-export const { resetProducts, setSearchQuery } = productsSlice.actions;
+export const { resetProducts, setSearchQuery, setCategory, setMaxPrice } = productsSlice.actions;
 export default productsSlice.reducer;
